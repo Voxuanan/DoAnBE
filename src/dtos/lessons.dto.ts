@@ -1,9 +1,6 @@
 import { IsString } from 'class-validator';
 
-export class CreateTopicDto {
+export class CreateLessonDto {
   @IsString()
   public name: string;
-
-  @IsString()
-  public description: string;
 }

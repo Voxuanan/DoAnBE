@@ -281,21 +281,123 @@ paths:
           description: 'Conflict'
         500:
           description: 'Server Error'
+  # [GET] lessons
+  /lessons:
+    get:
+      tags:
+        - lessons
+      summary: Find Paginate Lessons
+      parameters:
+        - name: page
+          in: query
+          type: number
+          required: true
+        - name: limit
+          in: query
+          type: number
+          required: true
+        - name: searchKey
+          in: query
+          type: string
+        - name: sort
+          in: query
+          type: string
+        - name: filter
+          in: query
+          type: string
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+
+    # [POST] lessons
+    post:
+      tags:
+        - lessons
+      summary: Add Lesson
+      parameters:
+        - name: body
+          in: body
+          description: lesson Data
+          required: true
+          schema:
+            $ref: '#/definitions/lessons'
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+  # [GET] lessons/id
+  /lessons/{id}:
+    get:
+      tags:
+        - lessons
+      summary: Find Lesson By Id
+      parameters:
+        - name: id
+          in: path
+          description: Lesson Id
+          required: true
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+    # [PUT] lessons/id
+    put:
+      tags:
+        - lessons
+      summary: Update Lesson By Id
+      parameters:
+        - name: id
+          in: path
+          description: lesson Id
+          required: true
+        - name: body
+          in: body
+          description: lesson Data
+          required: true
+          schema:
+            $ref: '#/definitions/lessons'
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+    # [DELETE] lessons/id
+    delete:
+      tags:
+        - lessons
+      summary: Delete Lesson By Id
+      parameters:
+        - name: id
+          in: path
+          description: lesson Id
+          required: true
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
 
 # definitions
 definitions:
-  topics:
-    type: object
-    required:
-      - name
-      - description
-    properties:
-      name:
-        type: string
-        description: topic Name
-      description:
-        type: string
-        description: topic Description
   users:
     type: object
     required:
@@ -308,6 +410,26 @@ definitions:
       password:
         type: string
         description: user Password
+  topics:
+    type: object
+    required:
+      - name
+      - description
+    properties:
+      name:
+        type: string
+        description: topic Name
+      description:
+        type: string
+        description: topic Description
+  lessons:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        type: string
+        description: lesson Name
 
 schemes:
   - https

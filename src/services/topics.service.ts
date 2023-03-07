@@ -45,7 +45,7 @@ class TopicService {
       if (findTopic && findTopic._id != topicId) throw new HttpException(409, `This name ${topicData.name} already exists`);
     }
 
-    const updateTopicById: Topic = await this.topics.findByIdAndUpdate({ _id: topicId }, { topicData });
+    const updateTopicById: Topic = await this.topics.findByIdAndUpdate({ _id: topicId }, topicData, { new: true });
     if (!updateTopicById) throw new HttpException(409, "Topic doesn't exist");
 
     return updateTopicById;

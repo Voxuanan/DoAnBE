@@ -1,7 +1,10 @@
 import { IBaseRepository } from '@/interfaces/baseRepository.interface';
-import { Model } from 'mongoose';
+import { Model, FilterQuery, PaginateOptions, Document, PaginateModel } from 'mongoose';
 
-export default class BaseRepository<T> implements IBaseRepository<T> {
+type DynamicModel<T extends Document> = PaginateModel<T>;
+type DynamicAggregatePaginateModel<T extends Document> = PaginateModel<T>;
+
+export default class BaseRepository<T extends Document> implements IBaseRepository<T> {
   protected readonly model: Model<T>;
 
   constructor(model: Model<T>) {
@@ -32,5 +35,18 @@ export default class BaseRepository<T> implements IBaseRepository<T> {
 
   async delete(id: string): Promise<void> {
     await this.model.findByIdAndDelete(id).exec();
+  }
+
+  async findPaginate(filter: FilterQuery<T>, options?: PaginateOptions): Promise<any> {
+    const dynamicModel: DynamicModel<T> = this.model as DynamicModel<T>;
+    const result = await dynamicModel.paginate(filter, options);
+    return {
+      data: result.docs,
+      page: {
+        pageCount: result.totalPages,
+        itemCount: result.totalDocs,
+        currentPage: result.page,
+      },
+    };
   }
 }

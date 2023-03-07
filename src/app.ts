@@ -5,7 +5,7 @@ import express from 'express';
 import helmet from 'helmet';
 import hpp from 'hpp';
 import morgan from 'morgan';
-import { connect, set } from 'mongoose';
+// import { connect, set } from 'mongoose';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from '@config';
@@ -13,6 +13,10 @@ import { dbConnection } from '@databases';
 import { Routes } from '@interfaces/routes.interface';
 import errorMiddleware from '@middlewares/error.middleware';
 import { logger, stream } from '@utils/logger';
+const mongoose = require('mongoose');
+import { accessibleRecordsPlugin } from '@casl/mongoose';
+import MongoosePaginate = require('mongoose-paginate-v2');
+import MongooseAggregatePaginate = require('mongoose-aggregate-paginate-v2');
 
 class App {
   public app: express.Application;
@@ -45,11 +49,18 @@ class App {
   }
 
   private connectToDatabase() {
+    MongoosePaginate.paginate.options = {
+      lean: false,
+      limit: 100,
+    };
+    mongoose.plugin(accessibleRecordsPlugin);
+    mongoose.plugin(MongoosePaginate);
+    mongoose.plugin(MongooseAggregatePaginate);
     if (this.env !== 'production') {
-      set('debug', true);
+      mongoose.set('debug', true);
     }
 
-    connect(dbConnection.url, dbConnection.options, () => {});
+    mongoose.connect(dbConnection.url, dbConnection.options, () => {});
   }
 
   private initializeMiddlewares() {
