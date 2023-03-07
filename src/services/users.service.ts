@@ -11,7 +11,7 @@ class UserService {
   private readonly userRepository: UserRepository;
 
   constructor() {
-    this.userRepository = new UserRepository();    
+    this.userRepository = new UserRepository();
   }
 
   public async findAllUser(): Promise<User[]> {
@@ -19,11 +19,11 @@ class UserService {
     return users;
   }
 
-  public async findUserById(userId: string): Promise<User> {    
+  public async findUserById(userId: string): Promise<User> {
     if (isEmpty(userId)) throw new HttpException(400, 'UserId is empty');
 
     const findUser: User = await this.users.findOne({ _id: userId });
-    if (!findUser) throw new HttpException(409, "User doesn't exist");    
+    if (!findUser) throw new HttpException(409, "User doesn't exist");
     return findUser;
   }
 

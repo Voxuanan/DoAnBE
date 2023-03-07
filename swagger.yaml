@@ -3,8 +3,72 @@ tags:
     description: users API
   - name: words
     description: words API
+  - name: auth
+    description: authenticate
+  - name: topics
+    description: topics API
 
 paths:
+  # [Post] login
+  /login:
+    post:
+      tags:
+        - auth
+      sumary: Login
+      parameters:
+        - name: body
+          in: body
+          description: user Data
+          required: true
+          schema:
+            $ref: '#/definitions/users'
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        500:
+          description: 'Server Error'
+
+  # [Post] signup
+  /signup:
+    post:
+      tags:
+        - auth
+      sumary: SignUp
+      parameters:
+        - name: body
+          in: body
+          description: user Data
+          required: true
+          schema:
+            $ref: '#/definitions/users'
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        500:
+          description: 'Server Error'
+
+  # [Post] logout
+  /logout:
+    post:
+      tags:
+        - auth
+      sumary: logout
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        401:
+          description: 'Wrong authentication token'
+        404:
+          description: 'Authentication token missing'
+        500:
+          description: 'Server Error'
+
   # [GET] users
   /users:
     get:
@@ -121,8 +185,117 @@ paths:
         500:
           description: 'Server Error'
 
+  # [GET] topics
+  /topics:
+    get:
+      tags:
+        - topics
+      summary: Find All Topics
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+
+    # [POST] topics
+    post:
+      tags:
+        - topics
+      summary: Add Topic
+      parameters:
+        - name: body
+          in: body
+          description: topic Data
+          required: true
+          schema:
+            $ref: '#/definitions/topics'
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+  # [GET] topics/id
+  /topics/{id}:
+    get:
+      tags:
+        - topics
+      summary: Find Topic By Id
+      parameters:
+        - name: id
+          in: path
+          description: Topic Id
+          required: true
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+    # [PUT] topics/id
+    put:
+      tags:
+        - topics
+      summary: Update Topic By Id
+      parameters:
+        - name: id
+          in: path
+          description: topic Id
+          required: true
+        - name: body
+          in: body
+          description: topic Data
+          required: true
+          schema:
+            $ref: '#/definitions/topics'
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+    # [DELETE] topics/id
+    delete:
+      tags:
+        - topics
+      summary: Delete Topic By Id
+      parameters:
+        - name: id
+          in: path
+          description: topic Id
+          required: true
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
 # definitions
 definitions:
+  topics:
+    type: object
+    required:
+      - name
+      - description
+    properties:
+      name:
+        type: string
+        description: topic Name
+      description:
+        type: string
+        description: topic Description
   users:
     type: object
     required:
