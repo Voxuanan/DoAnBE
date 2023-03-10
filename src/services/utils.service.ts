@@ -3,8 +3,9 @@ import { isEmpty } from '@utils/util';
 var gtts = require('node-gtts')('en');
 import path from 'path';
 import fs from 'fs';
+import { Request, Response } from 'express';
 
-class WordService {
+class UtilService {
   constructor() {}
 
   public async findAudio(word: string): Promise<{ audio: string }> {
@@ -23,4 +24,4 @@ class WordService {
   }
 }
 
-export default WordService;
+export default UtilService;

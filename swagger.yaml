@@ -1,8 +1,8 @@
 tags:
   - name: users
     description: users API
-  - name: words
-    description: words API
+  - name: utils
+    description: utils API
   - name: auth
     description: authenticate
   - name: topics
@@ -166,17 +166,39 @@ paths:
         500:
           description: 'Server Error'
 
-  # [GET] words/word
-  /words/{word}:
+  # [GET] utils/words/word
+  /utils/words/{word}:
     get:
       tags:
-        - words
+        - utils
       summary: Find Word's Audio
       parameters:
         - name: word
           in: path
           description: Word
           required: true
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+  # [POST] utils/file
+  /utils/file:
+    post:
+      tags:
+        - utils
+      summary: Upload File
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: fileUpload
+          in: formData
+          description: The uploaded file data
+          required: true
+          type: file
       responses:
         200:
           description: 'OK'
