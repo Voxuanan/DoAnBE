@@ -8,7 +8,8 @@ const lessonSchema: Schema = new Schema(
       type: String,
       required: true,
     },
-    topic: { type: Types.ObjectId, ref: 'Lesson' },
+    questions: [{ type: Types.ObjectId, ref: 'Question' }],
+    topic: { type: Types.ObjectId, ref: 'Topic' },
   },
   { timestamps: true },
 );

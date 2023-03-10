@@ -1,12 +1,14 @@
 import { IsObjectId } from '@/decorators/isObjectId.decorator';
-import { IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateLessonDto {
   @IsString()
+  @IsNotEmpty()
   public name: string;
 
   @IsObjectId({
-    message: 'Topid $value is not ObjectId.',
+    message: 'Topic $value is not ObjectId.',
   })
+  @IsNotEmpty()
   public topicId: string;
 }

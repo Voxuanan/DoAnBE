@@ -7,6 +7,8 @@ tags:
     description: authenticate
   - name: topics
     description: topics API
+  - name: questions
+    description: questions API
 
 paths:
   # [Post] login
@@ -424,6 +426,103 @@ paths:
         500:
           description: 'Server Error'
 
+  # [GET] questions
+  /questions:
+    get:
+      tags:
+        - questions
+      summary: Find All Questions
+      responses:
+        200:
+          description: 'OK'
+        500:
+          description: 'Server Error'
+
+    # [POST] questions
+    post:
+      tags:
+        - questions
+      summary: Add Question
+      parameters:
+        - name: body
+          in: body
+          description: question Data
+          required: true
+          schema:
+            $ref: '#/definitions/questions'
+      responses:
+        201:
+          description: 'Created'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+  # [GET] questions/id
+  /questions/{id}:
+    get:
+      tags:
+        - questions
+      summary: Find Question By Id
+      parameters:
+        - name: id
+          in: path
+          description: Question Id
+          required: true
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+    # [PUT] questions/id
+    put:
+      tags:
+        - questions
+      summary: Update Question By Id
+      parameters:
+        - name: id
+          in: path
+          description: question Id
+          required: true
+        - name: body
+          in: body
+          description: question Data
+          required: true
+          schema:
+            $ref: '#/definitions/questions'
+      responses:
+        200:
+          description: 'OK'
+        400:
+          description: 'Bad Request'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
+    # [DELETE] questions/id
+    delete:
+      tags:
+        - questions
+      summary: Delete Question By Id
+      parameters:
+        - name: id
+          in: path
+          description: question Id
+          required: true
+      responses:
+        200:
+          description: 'OK'
+        409:
+          description: 'Conflict'
+        500:
+          description: 'Server Error'
+
 # definitions
 definitions:
   users:
@@ -461,6 +560,20 @@ definitions:
       topicId:
         type: string
         description: topic Id
+  questions:
+    type: object
+    required:
+      - name
+    properties:
+      audio:
+        type: string
+        description: question Name
+      answer:
+        type: string
+        description: answer Name
+      lessonId:
+        type: string
+        description: lession Id
 
 schemes:
   - https
