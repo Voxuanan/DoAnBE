@@ -14,7 +14,7 @@ class TopicService {
   }
 
   public async findAllTopic(): Promise<Topic[]> {
-    const topics: Topic[] = await this.topicRepository.find();
+    const topics: Topic[] = await this.topicRepository.findAll({});
     return topics;
   }
 

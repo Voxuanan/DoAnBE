@@ -2,14 +2,20 @@ import { NextFunction, Request, Response } from 'express';
 import { CreateLessonDto } from '@dtos/lessons.dto';
 import { Lesson } from '@interfaces/lessons.interface';
 import lessonService from '@services/lessons.service';
+import { pipeDTO } from '@/utils/pipeDTO';
 
 class LessonsController {
   public lessonService = new lessonService();
 
   public getLessons = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const filter = req.query;
-      const options = {};
+      const query = pipeDTO(req.query);
+      const { searchKey, limit, page, sort = { updatedAt: -1 } } = query;
+      const filter = {};
+      if (searchKey) {
+        filter['name'] = { $regex: '.*' + searchKey + '.*' };
+      }
+      const options = { limit: +limit ?? 10, page: +page ?? 1, sort: sort };
       const findAllLessonsData: Lesson[] = await this.lessonService.findPaginateLesson(filter, options);
 
       res.status(200).json({ data: findAllLessonsData, message: 'findAll' });

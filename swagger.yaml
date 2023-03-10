@@ -301,10 +301,16 @@ paths:
           type: string
         - name: sort
           in: query
-          type: string
+          type: array
+          collectionFormat: multi
+          items:
+            type: string
         - name: filter
           in: query
-          type: string
+          type: array
+          collectionFormat: multi
+          items:
+            type: string
       responses:
         200:
           description: 'OK'
@@ -430,6 +436,9 @@ definitions:
       name:
         type: string
         description: lesson Name
+      topicId:
+        type: string
+        description: topic Id
 
 schemes:
   - https

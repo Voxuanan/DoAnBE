@@ -7,15 +7,13 @@ export class PaginationInputDto {
   @IsNotEmpty()
   limit: number;
 
-  @IsString()
   @IsOptional()
-  sort?: string;
+  sort?: string[] | object;
 
-  @IsString()
   @IsOptional()
-  filter?: string;
+  filter?: string[] | object;
 
-  @IsString()
   @IsOptional()
+  @IsString()
   searchKey?: string;
 }
